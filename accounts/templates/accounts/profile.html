@@ -1,0 +1,103 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+{{ profile_user.username }} | Connectly
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-card">
+
+    <div class="profile-avatar">
+        {{ profile_user.username|first|upper }}
+    </div>
+
+    <h1 class="profile-name">
+        {{ profile_user.username }}
+    </h1>
+
+    <div class="profile-stats">
+
+        <div>
+            <span class="stat-number">
+                {{ followers_count }}
+            </span>
+
+            <span class="stat-label">
+                Followers
+            </span>
+        </div>
+
+        <div>
+            <span class="stat-number">
+                {{ following_count }}
+            </span>
+
+            <span class="stat-label">
+                Following
+            </span>
+        </div>
+
+    </div>
+
+    {% if not is_own_profile %}
+
+        <form
+            method="POST"
+            action="{% url 'toggle_follow' profile_user.username %}"
+        >
+            {% csrf_token %}
+
+            {% if is_following %}
+
+                <button
+                    type="submit"
+                    class="btn btn-light"
+                >
+                    Unfollow
+                </button>
+
+            {% else %}
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Follow
+                </button>
+
+            {% endif %}
+
+        </form>
+
+    {% endif %}
+
+</section>
+
+<div class="page-header">
+    <h2>Posts</h2>
+</div>
+
+{% for post in posts %}
+
+    <article class="post-card">
+
+        <div class="post-content">
+            {{ post.content }}
+        </div>
+
+        <span class="post-date">
+            {{ post.created_at|date:"M d, Y - H:i" }}
+        </span>
+
+    </article>
+
+{% empty %}
+
+    <div class="empty-state">
+        <p>No posts yet.</p>
+    </div>
+
+{% endfor %}
+
+{% endblock %}

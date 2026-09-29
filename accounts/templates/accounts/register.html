@@ -1,0 +1,48 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+Create Account | Connectly
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            C
+        </div>
+
+        <h1>Create Account</h1>
+
+        <p class="auth-subtitle">
+            Join Connectly and start connecting with people.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button
+                type="submit"
+                class="btn btn-primary auth-button"
+            >
+                Create Account
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account?
+
+            <a href="{% url 'login' %}">
+                Sign in
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
